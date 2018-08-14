@@ -18,6 +18,7 @@ module.exports = () =>{
         h.findById(id)
             .then(user => {
                 console.log('Deserialization succeeded: '+ user);
+                //calling done() in deserializeUser with 'user' data, it will store user object in the request stream
                 done(null, user)
             })           
             .catch(error => console.log('Error desirializing user')+ error)

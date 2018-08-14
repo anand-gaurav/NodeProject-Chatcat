@@ -68,9 +68,20 @@ let findById = id => {
     });
 }
 
+// A middleware that checks to see if the user is authenicated & logged in
+let isAuthenticated = (req, res, next) => {
+    //isAuthenticated is an inbuilt function in passport and returns true is the user is indeed logged in
+    if(req.isAuthenticated()) {
+        next();
+    }else{
+        res.redirect('/');
+    }
+}
+
 module.exports = {
     route: route,
     findOne,
     createNewUser,
-    findById
+    findById,
+    isAuthenticated
 }
