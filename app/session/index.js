@@ -1,4 +1,9 @@
 'use strict';
+/*
+The session module (express-session) is essentially a middleware function that hooks on to a request stream and makes available
+ a simple api that allows us to create and use sessions which it manages internally using a combination of 
+ cookies and data stored in Mongo or in-memory (dev mode). 
+*/
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const config = require('../config');

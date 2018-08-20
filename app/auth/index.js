@@ -10,6 +10,7 @@ module.exports = () =>{
     passport.serializeUser((user,done) => {
         //done method creates a session and stores the user.id (mongo unique id key of collection)
         done(null, user.id);
+        console.log('Serialization succeeded: '+ user.id);
     });
 
     passport.deserializeUser((id,done)=>{
