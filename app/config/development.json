@@ -1,7 +1,7 @@
 {
     "host":"http://localhost:3000",
-    "dbURIMLab":"mongodb://chatcatuser:welcome1@ds115762.mlab.com:15762/chatcatdb",
-    "dbURI":"mongodb://chatcatuser:welcome1@localhost:27017/chatcatdb",
+    "dbURI":"mongodb://chatcatuser:welcome1@ds115762.mlab.com:15762/chatcatdb",
+    "dbURILocal":"mongodb://chatcatuser:welcome1@localhost:27017/chatcatdb",
     "sessionSecret":"catscanfly",
     "fb":{
         "clientID":"",
