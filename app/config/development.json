@@ -4,8 +4,8 @@
     "dbURILocal":"mongodb://chatcatuser:welcome1@localhost:27017/chatcatdb",
     "sessionSecret":"catscanfly",
     "fb":{
-        "clientID":"687178768330660",
-        "clientSecret":"1069f673dd0913fa6545fab9723fe201",
+        "clientID":"",
+        "clientSecret":"",
         "callbackURL":"//localhost:3000/auth/facebook/callback",
         "profileFields": ["id", "displayName", "photos"],
         "enableProof": true
