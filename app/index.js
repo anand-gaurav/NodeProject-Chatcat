@@ -23,7 +23,7 @@ let ioServer = app => {
 
     //server instance from http module
     //Express app is binded with newly created server instance
-    const server = require('http').Server(app);
+    const server = require('https').Server(app);
 
     //invoke socket.io construct and pass the server instance
     const io = require('socket.io')(server);
