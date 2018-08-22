@@ -1,5 +1,6 @@
 'use strict';
 const config = require('../config');
+const logger = require('../logger');
 const Mongoose = require('mongoose')
 console.log(config.dbURI);
 Mongoose.connect(config.dbURI, { useNewUrlParser: true });
@@ -7,7 +8,8 @@ Mongoose.connect(config.dbURI, { useNewUrlParser: true });
 //Log and error if the connection fails
 const db = Mongoose.connection;
 db.on('error', error => {
-    console.log("MongoDB error :", error);
+    //console.log("MongoDB error :", error);
+    logger.log('error', 'Mongoose connection error: '+ error);
 });
 db.once('open', function () {
     console.log("Mongoose connected");

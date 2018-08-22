@@ -29,11 +29,11 @@ let ioServer = app => {
     const io = require('socket.io')(server);
 
     // for session affinity support in our server, we have to force socket.io to only use websocket as its transport medium
-    io.set('transport', ['websocket']);
+    io.set('transports', ['websocket']);
 
 
-    //we want out socket.io to send and receive its buffer from redis
-    // for sending/publishing data buffers we will instantiate a client interface by using redis() or createClient
+    //we want out socket.io to send and receive its buffer from redis instead of using in-memory approach
+    // for sending/publishing data buffers we will instantiate a client interface by using 'redis' keyword or createClient
     let pubClient = redis(config.redis.port, config.redis.host, {
         auth_pass: config.redis.password
     });
@@ -45,15 +45,17 @@ let ioServer = app => {
     // using auth_pass property
     
     let subClient = redis(config.redis.port, config.redis.host, {
-        // if buffers property is not set, then redis will send data as string whereas we want data in its origing state. 
+        // if buffers property is not set, then redis will send data as string whereas we want data in its original buffer state. 
         return_buffers: true,
         auth_pass: config.redis.password
     });
 
-    //for interfacing redis with socket.io
-    io.adapter(adapter({
-        pubClient,
-        subClient
+    //for interfacing redis with socket.io will use io.adapter method which will allow us to specify a custom socket.io adapter
+    // in this will use adapter keyword which refers to socket.io-redis module and for its option will pass in an object
+    // containing 2 key value pairs
+    io.adapter(redisAdapter({
+        pubClient:pubClient ,
+        subClient:subClient
     }));
     
 
@@ -80,7 +82,8 @@ let ioServer = app => {
 module.exports = {
     router : require('./routes')(),
     session: require('./session'),
-    ioServer
+    ioServer,
+    logger: require('./logger')
 }
 
 

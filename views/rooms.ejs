@@ -20,7 +20,9 @@
 			// this way we can within the overall socket.io channel create multiple subpipeline which will carry 
 			// unique and isolated packet of data. So 1 connection but several unique and discreet data pipeline
 			// below stmt will try to handshake socket.io backend server with /roomlist namespace
-			let socket = io('<%= host %>' + '/roomlist');
+			let socket = io('<%= host %>' + '/roomlist', {
+				transports: ['websocket'] 
+			});
 			let newRoomInput = $("input[name='roomName']");
 			socket.on('connect', () => console.log('Connected to Server !'));
 

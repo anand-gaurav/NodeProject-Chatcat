@@ -3,14 +3,14 @@ const passport = require('passport');
 const config = require('../config');
 const FbStrategy = require('passport-facebook').Strategy;
 const h = require('../helpers');
-
+const logger = require('../logger');
 module.exports = () =>{
     //serializeUser function is automatically invoked by passport when authorization process ends.
     //in this case when authProcessor() function done() is invoked, then serializeUser function is invoked
     passport.serializeUser((user,done) => {
         //done method creates a session and stores the user.id (mongo unique id key of collection)
         done(null, user.id);
-        console.log('Serialization succeeded: '+ user.id);
+        logger.log('info', 'Serialization succeeded: '+ user.id);
     });
 
     passport.deserializeUser((id,done)=>{
@@ -18,11 +18,11 @@ module.exports = () =>{
         //passport injects id in the desirialized method
         h.findById(id)
             .then(user => {
-                console.log('Deserialization succeeded: '+ user);
+                logger.log('info','Deserialization succeeded: '+ user);
                 //calling done() in deserializeUser with 'user' data, it will store user object in the request stream
                 done(null, user)
             })           
-            .catch(error => console.log('Error desirializing user')+ error)
+            .catch(error => logger.log('error','Error desirializing user: ')+ error)
              //after done method is invoked, this user data is made avialable in request stream as req.user
     });
 
@@ -33,7 +33,7 @@ module.exports = () =>{
         //If the user is not found, create one in the local db and return
         h.findOne(profile.id)
             .then(result => {
-                console.log('User data exist' + JSON.stringify(result));
+                logger.log('info','User data exist: ' + JSON.stringify(result));
                 if(result){
                     //First argument represent any error in nodejs callback function
                     //Second is the actual result derived from mongodb for the user logged in
@@ -41,14 +41,13 @@ module.exports = () =>{
                     //into passport so that it can offer it to the app for its consumption
                     done(null, result);
                 }else{
-                    // Create a new user and return
-                    console.log('Create a new user entry in mongo db');
+                    // Create a new user and return                   
                     h.createNewUser(profile)
                         .then(newChatUser => {
-                            console.log('New user entry suceeded: ' +JSON.stringify(newChatUser));
+                            logger.log('info','New user entry suceeded: ' +JSON.stringify(newChatUser));
                             done(null, newChatUser);
                         })
-                        .catch(error => console.log('Error creating new user'));
+                        .catch(error => logger.log('error', 'Error creating new user: '+ error));
                 }
             })
     };
