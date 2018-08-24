@@ -13,7 +13,8 @@ if(process.env.NODE_ENV === 'production'){
             clientID: process.env.fbClientID,
             clientSecret: process.env.fbClientSecret,
             callbackURL: process.env.host + '/auth/facebook/callback',
-            profileFields: ['id', 'displayName', 'photos']
+            profileFields: ['id', 'displayName', 'photos'],
+            enableProof: true
         },
         redis: {
             host: redisURI.hostname,
